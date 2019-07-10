@@ -10,6 +10,12 @@ class Rule(models.Model):
     name = models.CharField(max_length=50)
     active = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
+
+    def getAllFields(self):
+        return '"' + self.name + '" is active' if self.active else ''
+
 class Book(models.Model):
     class Meta:
         db_table = 'book'
@@ -18,6 +24,9 @@ class Book(models.Model):
     rounds = models.IntegerField()
     start = models.DateTimeField()
     end = models.DateTimeField()
+
+    def __str__(self):
+        return self.number + '. ' + self.title
 
 class BookPartaker(models.Model):
     class Meta:
@@ -34,6 +43,10 @@ class BookPartaker(models.Model):
         choices=[(job, job.value) for job in BookJobs]
     )
 
+    def __str__(self):
+        return (self.book.number + '. ' + self.book.title + '. '
+            + self.user.username + ' as ' + self.job)
+
 class BookRule(models.Model):
     class Meta:
         db_table = 'book_rule'
@@ -47,6 +60,10 @@ class BookRule(models.Model):
     description = models.CharField(max_length=300)
     author = models.ForeignKey(BookPartaker, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return (self.book.number + '. ' + self.book.title + '. ' + self.rule.name
+            + ' is ' + self.description + '. By ' + self.author.username)
+
 class Chapter(models.Model):
     class Meta:
         db_table = 'chapter'
@@ -56,6 +73,9 @@ class Chapter(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     start = models.DateTimeField()
     end = models.DateTimeField()
+
+    def __str__(self):
+        return self.number + '. ' + self.title
 
 class ChapterPartaker(models.Model):
     class Meta:
@@ -71,3 +91,7 @@ class ChapterPartaker(models.Model):
         max_length=15,
         choices=[(job, job.value) for job in ChapterJobs]
     )
+
+    def __str__(self):
+        return (self.chapter.number + '. ' + self.chapter.title + '. '
+            + self.user.username + ' as ' + self.job)
