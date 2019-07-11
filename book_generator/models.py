@@ -13,7 +13,7 @@ class Rule(models.Model):
     def __str__(self):
         return self.name
 
-    def getAllFields(self):
+    def fullData(self):
         return '"' + self.name + '" is active' if self.active else ''
 
 class Book(models.Model):
@@ -26,7 +26,7 @@ class Book(models.Model):
     end = models.DateTimeField()
 
     def __str__(self):
-        return self.number + '. ' + self.title
+        return str(self.number) + '. ' + self.title
 
 class BookPartaker(models.Model):
     class Meta:
@@ -40,11 +40,11 @@ class BookPartaker(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     job = models.CharField(
         max_length=15,
-        choices=[(job, job.value) for job in BookJobs]
+        choices=[(job.name, job.value) for job in BookJobs]
     )
 
     def __str__(self):
-        return (self.book.number + '. ' + self.book.title + '. '
+        return (str(self.book.number) + '. ' + self.book.title + '. '
             + self.user.username + ' as ' + self.job)
 
 class BookRule(models.Model):
@@ -58,10 +58,10 @@ class BookRule(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     rule = models.ForeignKey(Rule, on_delete=models.CASCADE)
     description = models.CharField(max_length=300)
-    author = models.ForeignKey(BookPartaker, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
-        return (self.book.number + '. ' + self.book.title + '. ' + self.rule.name
+        return (str(self.book.number) + '. ' + self.book.title + '. ' + self.rule.name
             + ' is ' + self.description + '. By ' + self.author.username)
 
 class Chapter(models.Model):
@@ -75,7 +75,7 @@ class Chapter(models.Model):
     end = models.DateTimeField()
 
     def __str__(self):
-        return self.number + '. ' + self.title
+        return "Libro " + str(self.book.number) + ". Capítulo " + str(self.number) + '. ' + self.title
 
 class ChapterPartaker(models.Model):
     class Meta:
@@ -89,9 +89,9 @@ class ChapterPartaker(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     job = models.CharField(
         max_length=15,
-        choices=[(job, job.value) for job in ChapterJobs]
+        choices=[(job.name, job.value) for job in ChapterJobs]
     )
 
     def __str__(self):
-        return (self.chapter.number + '. ' + self.chapter.title + '. '
+        return (str(self.chapter.number) + '. ' + self.chapter.title + '. '
             + self.user.username + ' as ' + self.job)
