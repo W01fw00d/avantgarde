@@ -1,0 +1,11 @@
+<div><a href="{% url 'new' %}"> Create a new Book.</a></div>
+
+{% if book_list %}
+    <ul>
+    {% for book in book_list %}
+        <li><a href="{% url 'edit' book.id %}">{{ book }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No books are available.</p>
+{% endif %}
