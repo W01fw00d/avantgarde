@@ -4,7 +4,8 @@ from . import views
 
 app_name = 'generator'
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.IndexView.as_view(), name='index'),
+    path('book/<int:pk>', views.DetailView.as_view(), name='edit'),
     path('new', views.new, name='new'),
-    path('book/<int:book_id>', views.edit, name='edit'),
+    # path('save_new', views.save_new, name='save_new'),
 ]
