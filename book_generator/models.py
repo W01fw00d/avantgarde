@@ -22,8 +22,8 @@ class Book(models.Model):
     number = models.IntegerField()
     title = models.CharField(max_length=100, null=True, blank=True)
     rounds = models.IntegerField()
-    start = models.DateTimeField()
-    end = models.DateTimeField()
+    start = models.DateField()
+    end = models.DateField()
 
     def __str__(self):
         return str(self.number) + '. ' + self.title
@@ -71,8 +71,8 @@ class Chapter(models.Model):
     number = models.IntegerField()
     title = models.CharField(max_length=100, null=True, blank=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
+    start = models.DateField()
+    end = models.DateField()
 
     def __str__(self):
         return "Libro " + str(self.book.number) + ". Capítulo " + str(self.number) + '. ' + self.title

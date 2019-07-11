@@ -1,9 +1,10 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic
 
 from .models import Book
+from .forms import NewBookForm
 
 class IndexView(generic.ListView):
     template_name = 'book/index.html'
@@ -18,10 +19,12 @@ class DetailView(generic.DetailView):
     template_name = 'book/edit.html'
 
 def new(request):
-    return HttpResponse("You can start a new Exquisite Corpse Book here.")
+    if request.method == 'POST':
+        form = NewBookForm(request.POST)
+        if form.is_valid():
+            form.process()
+            return HttpResponseRedirect(reverse('generator:index'))
+    else:
+        form = NewBookForm()
 
-# def save_new(request, book):
-#     book = request.POST['book']
-#     book.save()
-#
-#     return HttpResponseRedirect(reverse('book:index'))
+    return render(request, 'book/new.html', {'form': form})
