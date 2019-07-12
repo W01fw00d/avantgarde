@@ -11,11 +11,11 @@
   </head>
   {% endblock %}
 
-  {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static 'book_generator/style.css' %}">
-
   <body>
     {% block content %}
     {% endblock %}
   </body>
+
+  <link rel="stylesheet" type="text/css" href="{% static 'book_generator/style.css' %}">
+  <script src="{% static 'book_generator/scripts/new.js' %}"></script>
 </html>
