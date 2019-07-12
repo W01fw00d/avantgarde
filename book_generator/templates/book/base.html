@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+  {% block head %}
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'book_generator/images/favicon.ico' %}" />
+  </head>
+  {% endblock %}
+
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'book_generator/style.css' %}">
+
+  <body>
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>

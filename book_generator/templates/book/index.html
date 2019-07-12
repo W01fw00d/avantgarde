@@ -1,4 +1,11 @@
-<div><a href="{% url 'generator:new' %}"> Create a new Book.</a></div>
+{% extends "book/base.html" %}
+
+{% block title %}List of Books{% endblock %}
+
+{% block content %}
+
+<div><a href="{% url 'admin:index' %}"> Admin site</a></div>
+<div class="data_row"><a href="{% url 'generator:new' %}"> Create a new Book</a></div>
 
 {% if book_list %}
     <ul>
@@ -9,3 +16,5 @@
 {% else %}
     <p>No books are available.</p>
 {% endif %}
+
+{% endblock %}

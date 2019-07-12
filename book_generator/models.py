@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
-from book_generator.enums.book_jobs import BookJobs
-from book_generator.enums.chapter_jobs import ChapterJobs
+from .enums.book_jobs import BookJobs
+from .enums.chapter_jobs import ChapterJobs
 
 class Rule(models.Model):
     class Meta:

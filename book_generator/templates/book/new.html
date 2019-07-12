@@ -1,4 +1,10 @@
-<h1>You can start a new Exquisite Corpse Book here.</h1>
+{% extends "book/base.html" %}
+
+{% block title %}New Book Generator{% endblock %}
+
+{% block content %}
+
+<h1>Let's generate a new Exquisite Corpse Book!</h1>
 
 {% if error_message %}
   <p><strong>{{ error_message }}</strong></p>
@@ -6,6 +12,52 @@
 
 <form action="{% url 'generator:new' %}" method="post">
     {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Save">
+    <div>
+      {{ form.number.errors }}
+      {{ form.number.label_tag }}
+      {{ form.number }}
+
+      {{ form.title.errors }}
+      {{ form.title.label_tag }}
+      {{ form.title }}
+    </div>
+    <div>
+      {{ form.rounds.errors }}
+      {{ form.rounds.label_tag }}
+      {{ form.rounds }}
+    </div>
+    <div>
+      {{ form.start.errors }}
+      {{ form.start.label_tag }}
+      {{ form.start }}
+
+      {{ form.end.errors }}
+      {{ form.end.label_tag }}
+      {{ form.end }}
+    </div>
+    <div>
+      {{ form.rules.errors }}
+      {{ form.rules.label_tag }}
+      {{ form.rules }}
+    </div>
+    <div class="data_row">
+      {{ form.participant.errors }}
+      {{ form.participant.label_tag }}
+      {{ form.participant }}
+
+      <div>
+        {{ form.jobs.errors }}
+        {{ form.jobs.label_tag }}
+        {{ form.jobs }}
+      </div>
+
+      <div>
+        <input type="submit" value="SetParticipant">
+      </div>
+    </div>
+    <div class="data_row">
+      <input type="submit" value="Save">
+    </div>
 </form>
+
+{% endblock %}
