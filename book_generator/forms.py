@@ -25,14 +25,19 @@ class NewBookForm(ModelForm):
             'end': SelectDateWidget(),
         }
 
+    number = forms.IntegerField(label='Number:', required=False, widget=forms.NumberInput())
+
+    rounds = forms.IntegerField(label='Rounds:', required=False, widget=forms.NumberInput())
+
     rules_choices = [(rule.id, rule.name) for rule in Rule.objects.all()]
-    rules = forms.ChoiceField(widget=HorizontalCheckboxSelectMultiple, choices=rules_choices)
+    rules = forms.ChoiceField(widget=HorizontalCheckboxSelectMultiple, choices=rules_choices, required=False)
 
     user_choices = [(user.id, user.username) for user in User.objects.all()]
-    participant = forms.ChoiceField(widget=forms.SelectMultiple, choices=user_choices)
+    participant = forms.ChoiceField(widget=forms.Select, choices=user_choices, required=False)
 
     job_choices=[(job.name, job.value) for job in BookJobs]
-    jobs = forms.ChoiceField(widget=HorizontalCheckboxSelectMultiple, choices=job_choices)
+
+    jobs = forms.MultipleChoiceField(widget=HorizontalCheckboxSelectMultiple, choices = job_choices, required=False)
 
 
     def process(self):

@@ -21,9 +21,25 @@ class DetailView(generic.DetailView):
 def new(request):
     if request.method == 'POST':
         form = NewBookForm(request.POST)
+
         if form.is_valid():
-            form.process()
-            return HttpResponseRedirect(reverse('generator:index'))
+
+            if 'setParticipant' in request.POST:
+                form.fields['jobs'].required = True
+
+                print('setParticipant', form.cleaned_data['participant'], form.cleaned_data['jobs'])
+
+            elif 'save' in request.POST:
+                form.fields['number'].required = True
+                form.fields['title'].required = True
+                form.fields['rounds'].required = True
+                form.fields['start'].required = True
+                form.fields['end'].required = True
+                print('save')
+
+                if False:
+                    form.process()
+                    return HttpResponseRedirect(reverse('generator:index'))
     else:
         form = NewBookForm()
 

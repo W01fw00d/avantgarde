@@ -40,6 +40,7 @@
       {{ form.rules.label_tag }}
       {{ form.rules }}
     </div>
+
     <div class="data_row">
       {{ form.participant.errors }}
       {{ form.participant.label_tag }}
@@ -52,7 +53,7 @@
       </div>
 
       <div>
-        <input id="set_participant" type="button" value="Set participant">
+        <input type="submit" name="setParticipant" value="Set participant">
       </div>
 
       <div id="participants">
@@ -60,7 +61,7 @@
       </div>
     </div>
     <div class="data_row">
-      <input type="submit" value="Save">
+      <input type="submit" name="save" value="Save">
     </div>
 </form>
 
