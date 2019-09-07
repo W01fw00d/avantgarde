@@ -42,6 +42,11 @@
     </div>
 
     <div class="data_row">
+      Participants:
+      {{ request.session.participants }}
+    </div>
+
+    <div class="data_row">
       {{ form.participant.errors }}
       {{ form.participant.label_tag }}
       {{ form.participant }}

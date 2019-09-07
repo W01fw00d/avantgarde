@@ -23,12 +23,22 @@ def new(request):
         form = NewBookForm(request.POST)
 
         if 'setParticipant' in request.POST:
-            print('setParticipant')
+            # print('setParticipant')
 
             form.fields['jobs'].required = True
 
             if form.is_valid():
-                print('valid setParticipant', form.cleaned_data['participant'], form.cleaned_data['jobs'])
+                if 'participants' not in request.session:
+                    request.session['participants'] = []
+
+                request.session['participants'].append({
+                    'id': form.cleaned_data['participant'],
+                    'jobs': form.cleaned_data['jobs'],
+                })
+                request.session.modified = True
+
+                for participant in request.session['participants']:
+                    print(participant)
 
         elif 'save' in request.POST:
             form.fields['number'].required = True
@@ -37,16 +47,21 @@ def new(request):
             form.fields['start'].required = True
             form.fields['end'].required = True
 
-            print('save')
+            # print('save')
 
             if form.is_valid():
                 print('valid save')
 
                 if False:
+                    request.session['participants'] = []
+                    request.session.modified = True
+
                     form.process()
                     return HttpResponseRedirect(reverse('generator:index'))
     else:
+        # print('reset')
         form = NewBookForm()
+        request.session['participants'] = []
 
     form.fields['number'].required = False
     form.fields['title'].required = False
