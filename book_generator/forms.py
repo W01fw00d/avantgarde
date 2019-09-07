@@ -26,7 +26,6 @@ class NewBookForm(ModelForm):
         }
 
     number = forms.IntegerField(label='Number:', required=False, widget=forms.NumberInput())
-
     rounds = forms.IntegerField(label='Rounds:', required=False, widget=forms.NumberInput())
 
     rules_choices = [(rule.id, rule.name) for rule in Rule.objects.all()]
@@ -36,7 +35,6 @@ class NewBookForm(ModelForm):
     participant = forms.ChoiceField(widget=forms.Select, choices=user_choices, required=False)
 
     job_choices=[(job.name, job.value) for job in BookJobs]
-
     jobs = forms.MultipleChoiceField(widget=HorizontalCheckboxSelectMultiple, choices = job_choices, required=False)
 
 

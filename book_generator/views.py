@@ -22,25 +22,37 @@ def new(request):
     if request.method == 'POST':
         form = NewBookForm(request.POST)
 
-        if form.is_valid():
+        if 'setParticipant' in request.POST:
+            print('setParticipant')
 
-            if 'setParticipant' in request.POST:
-                form.fields['jobs'].required = True
+            form.fields['jobs'].required = True
 
-                print('setParticipant', form.cleaned_data['participant'], form.cleaned_data['jobs'])
+            if form.is_valid():
+                print('valid setParticipant', form.cleaned_data['participant'], form.cleaned_data['jobs'])
 
-            elif 'save' in request.POST:
-                form.fields['number'].required = True
-                form.fields['title'].required = True
-                form.fields['rounds'].required = True
-                form.fields['start'].required = True
-                form.fields['end'].required = True
-                print('save')
+        elif 'save' in request.POST:
+            form.fields['number'].required = True
+            form.fields['title'].required = True
+            form.fields['rounds'].required = True
+            form.fields['start'].required = True
+            form.fields['end'].required = True
+
+            print('save')
+
+            if form.is_valid():
+                print('valid save')
 
                 if False:
                     form.process()
                     return HttpResponseRedirect(reverse('generator:index'))
     else:
         form = NewBookForm()
+
+    form.fields['number'].required = False
+    form.fields['title'].required = False
+    form.fields['rounds'].required = False
+    form.fields['start'].required = False
+    form.fields['end'].required = False
+    form.fields['jobs'].required = False
 
     return render(request, 'book/new.html', {'form': form})
