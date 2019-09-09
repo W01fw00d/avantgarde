@@ -1,0 +1,25 @@
+- model: auth.user
+  pk: 2
+  fields:
+    username: JPM
+    password: password
+    email: fake@email.com
+- model: auth.user
+  pk: 3
+  fields:
+    username: JJ
+    password: password
+    email: fake@email.com
+- model: auth.user
+  pk: 4
+  fields:
+    username: Navi
+    password: password
+    email: fake@email.com
+
+- model: auth.user
+  pk: 4
+  fields:
+    username: Navi
+    password: password
+    email: fake@email.com
