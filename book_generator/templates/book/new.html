@@ -10,7 +10,7 @@
   <p><strong>{{ error_message }}</strong></p>
 {% endif %}
 
-<form action="{% url 'generator:new' %}" method="post">
+<form action="{% url 'book_generator:new' %}" method="post">
     {% csrf_token %}
     <div>
       {{ form.number.errors }}

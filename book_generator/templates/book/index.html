@@ -5,12 +5,12 @@
 {% block content %}
 
 <div><a href="{% url 'admin:index' %}"> Admin site</a></div>
-<div class="data_row"><a href="{% url 'generator:new' %}"> Create a new Book</a></div>
+<div class="data_row"><a href="{% url 'book_generator:new' %}"> Create a new Book</a></div>
 
 {% if book_list %}
     <ul>
     {% for book in book_list %}
-        <li><a href="{% url 'generator:edit' book.id %}">{{ book }}</a></li>
+        <li><a href="{% url 'book_generator:edit' book.id %}">{{ book }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

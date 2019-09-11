@@ -17,9 +17,106 @@
     password: password
     email: fake@email.com
 
-- model: auth.user
+- model: book_generator.rule
+  pk: 0
+  fields:
+    name: Character
+    active: True
+
+- model: book_generator.rule
+  pk: 1
+  fields:
+    name: Theme
+    active: True
+
+- model: book_generator.rule
+  pk: 2
+  fields:
+    name: Restriction
+    active: True
+
+- model: book_generator.book
+  pk: 0
+  fields:
+    number: 1
+    title: Merkeris
+    rounds: 6
+    start: 2015-09-01
+    end: 2015-11-01
+
+- model: book_generator.book
+  pk: 1
+  fields:
+    number: 2
+    title: >
+      "Merkeris no hace surf" O "Hola, soy Celeste y ésta es mi voz"
+    rounds: 3
+    start: 2016-10-01
+    end: 2017-01-01
+
+- model: book_generator.bookPartaker
+  pk: 0
+  fields:
+    book: 1
+    user: 1
+    job: DIRECTOR
+
+- model: book_generator.bookPartaker
+  pk: 1
+  fields:
+    book: 1
+    user: 1
+    job: WRITER
+
+- model: book_generator.bookPartaker
+  pk: 2
+  fields:
+    book: 1
+    user: 2
+    job: WRITER
+
+- model: book_generator.bookPartaker
+  pk: 3
+  fields:
+    book: 1
+    user: 3
+    job: WRITER
+
+- model: book_generator.bookPartaker
   pk: 4
   fields:
-    username: Navi
-    password: password
-    email: fake@email.com
+    book: 1
+    user: 4
+    job: WRITER
+
+- model: book_generator.bookRule
+  pk: 0
+  fields:
+    book: 1
+    rule: 0
+    description: Una mujer cyborg cansada de que la valoren por su intelecto pero nadie la desea sexualmente
+    author: 3
+
+- model: book_generator.bookRule
+  pk: 1
+  fields:
+    book: 1
+    rule: 1
+    description: Hablar con voz está penado por la ley
+    author: 4
+
+- model: book_generator.chapter
+  pk: 0
+  fields:
+    number: 1
+    title: La voz de los adentros
+    book: 1
+    start: 2016-10-01
+    end: 2016-01-15
+
+- model: book_generator.chapterPartaker
+  pk: 0
+  fields:
+    chapter: 0
+    user: 1
+    job: WRITER
