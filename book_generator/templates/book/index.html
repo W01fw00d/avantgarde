@@ -4,8 +4,7 @@
 
 {% block content %}
 
-<div><a href="{% url 'admin:index' %}"> Admin site</a></div>
-<div class="data_row"><a href="{% url 'book_generator:new' %}"> Create a new Book</a></div>
+<div class="data_row"><a href="{% url 'book_generator:new' %}">[Create a new Book]</a></div>
 
 {% if book_list %}
     <ul>

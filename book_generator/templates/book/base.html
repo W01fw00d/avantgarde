@@ -12,6 +12,11 @@
   {% endblock %}
 
   <body>
+    <div>
+      <a href="{% url 'book_generator:index' %}">[Book Generator]</a>
+      <a href="{% url 'admin:index' %}">[Admin site]</a>
+    </div>
+
     {% block content %}
     {% endblock %}
   </body>
