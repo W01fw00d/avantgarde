@@ -24,6 +24,7 @@ class Book(models.Model):
     rounds = models.IntegerField()
     start = models.DateField()
     end = models.DateField()
+    # chapter_time is currently hardcoded as 1 week
 
     def __str__(self):
         return str(self.number) + '. ' + self.title

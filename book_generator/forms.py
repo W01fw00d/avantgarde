@@ -7,7 +7,8 @@ from .enums.book_jobs import BookJobs
 
 from django.utils.safestring import mark_safe
 
-import random, ast
+import random, ast, datetime
+from random import shuffle
 
 # Making custom version of CheckboxSelectMultiple with horizontal style
 class HorizontalCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
@@ -32,8 +33,6 @@ class NewBookForm(ModelForm):
         if participants and choices:
             for participant in participants:
                 participant_dict = ast.literal_eval(participant['participant'])
-                print('choices: ', choices)
-                print('participant to remove: ', (participant_dict, participant_dict['name']))
                 if choices:
                     choices.remove((participant_dict, participant_dict['name']))
 
@@ -57,17 +56,73 @@ class NewBookForm(ModelForm):
 
         if participants:
             print('all participants: ', participants)
-            rules_participants = participants
+            available_participants = participants
 
             for rule in self.cleaned_data['rules']:
                 # If there are still rules but no participants, refill the list
-                if not rules_participants:
-                    rules_participants = participants
-                rule_participant = random.choice(rules_participants)
-                rules_participants.remove(rule_participant)
+                if not available_participants:
+                    available_participants = participants
+                rule_participant = random.choice(available_participants)
+                available_participants.remove(rule_participant)
                 print(rule, ' will be chosen by ', rule_participant)
+
+            writers = []
+            for participant in participants:
+                if 'WRITER' in participant['jobs']:
+                    writers.append(participant)
+
+            chapters = []
+            for round in range(0, self.cleaned_data['rounds']):
+                number = 1
+                available_writers = writers
+                # First writter would be somebody who hasn't chosen any rule, if possible
+                if round == 0:
+                    chapter_writer = None
+
+                    while not chapter_writer and available_participants:
+                        chapter_writer = random.choice(available_participants)
+                        available_participants.remove(chapter_writer)
+
+                        if 'WRITER' not in chapter_writer['jobs']:
+                            chapter_writer = None
+
+
+                    # writer_dict = ast.literal_eval(chapter_writer['participant'])
+                    # start_date = datetime.datetime.strptime(self.cleaned_data['start'], '%Y-%m-%d')
+
+                    chapters.append(
+                        self.generateRandomChapter(number, chapter_writer)
+                    )
+                    number += 1
+
+                    # Remove first chapter writer
+                    if chapter_writer:
+                        available_writers.remove(chapter_writer)
+
+                print('available_writers', available_writers)
+                shuffle(available_writers)
+                for writer in available_writers:
+                    chapters.append(
+                        self.generateRandomChapter(number, writer)
+                    )
+                    number += 1
+
+        print('chapters: ', chapters)
 
         # book = self.save(commit=False)
         # commit=False tells Django that "Don't send this to database yet.
         # I have more things I want to do with it."
         # book.save() # Now you can send it to DB
+
+    def generateRandomChapter(self, number, writer):
+        start_date = self.cleaned_data['start']
+        one_week_on_days = 7 # Hardcoded to 1 week, should be on Book model as chapter_time
+        one_week = datetime.timedelta(days=one_week_on_days)
+        end = start_date + one_week
+
+        return {
+            'number': number,
+            'writter': writer['participant'],
+            'start': self.cleaned_data['start'],
+            'end': end,
+        }
