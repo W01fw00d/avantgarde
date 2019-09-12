@@ -23,22 +23,20 @@ def new(request):
         form = NewBookForm(request.POST)
 
         if 'setParticipant' in request.POST:
-            # print('setParticipant')
-
             form.fields['jobs'].required = True
 
             if form.is_valid():
                 if 'participants' not in request.session:
                     request.session['participants'] = []
 
-                request.session['participants'].append({
-                    'id': form.cleaned_data['participant'],
+                new_participant = {
+                    'participant': form.cleaned_data['participant'],
                     'jobs': form.cleaned_data['jobs'],
-                })
-                request.session.modified = True
+                }
 
-                for participant in request.session['participants']:
-                    print(participant)
+                if (new_participant not in request.session['participants']):
+                    request.session['participants'].append(new_participant)
+                    request.session.modified = True
 
         elif 'save' in request.POST:
             form.fields['number'].required = True
@@ -47,19 +45,15 @@ def new(request):
             form.fields['start'].required = True
             form.fields['end'].required = True
 
-            # print('save')
+            # All fields are valids and there're chosen participants
+            if form.is_valid() and request.session['participants']:
+                participants = request.session['participants']
+                request.session['participants'] = []
+                request.session.modified = True
+                form.process(participants)
+                # return HttpResponseRedirect(reverse('book_generator:index'))
 
-            if form.is_valid():
-                print('valid save')
-
-                if False:
-                    request.session['participants'] = []
-                    request.session.modified = True
-
-                    form.process()
-                    return HttpResponseRedirect(reverse('generator:index'))
     else:
-        # print('reset')
         form = NewBookForm()
         request.session['participants'] = []
 
@@ -70,4 +64,20 @@ def new(request):
     form.fields['end'].required = False
     form.fields['jobs'].required = False
 
-    return render(request, 'book/new.html', {'form': form})
+    # Review if choices are already chosen on form participant field
+    form.addaptParticipantChoices(request.session['participants'])
+
+    if not form.fields['participant'].choices:
+        are_choices_left = False
+    else:
+        are_choices_left = True
+    #
+
+    return render(
+        request,
+        'book/new.html',
+        {
+            'form': form,
+            'are_choices_left': are_choices_left
+        }
+    )
