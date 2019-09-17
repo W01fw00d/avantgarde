@@ -16,6 +16,60 @@
     username: Navi
     password: password
     email: fake@email.com
+- model: auth.user
+  pk: 5
+  fields:
+    username: LuisB
+    password: password
+    email: fake@email.com
+- model: auth.user
+  pk: 6
+  fields:
+    username: LluisG
+    password: password
+    email: fake@email.com
+- model: auth.user
+  pk: 7
+  fields:
+    username: Ángela
+    password: password
+    email: fake@email.com
+- model: auth.user
+  pk: 8
+  fields:
+    username: Sara
+    password: password
+    email: fake@email.com
+- model: auth.user
+  pk: 9
+  fields:
+    username: Aina
+    password: password
+    email: fake@email.com
+- model: auth.user
+  pk: 10
+  fields:
+    username: Marta
+    password: password
+    email: fake@email.com
+- model: auth.user
+  pk: 11
+  fields:
+    username: Albert
+    password: password
+    email: fake@email.com
+- model: auth.user
+  pk: 12
+  fields:
+    username: Isis
+    password: password
+    email: fake@email.com
+- model: auth.user
+  pk: 13
+  fields:
+    username: Xisca
+    password: password
+    email: fake@email.com
 
 - model: book_generator.rule
   pk: 0
