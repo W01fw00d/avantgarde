@@ -6,6 +6,7 @@ from django.views import generic
 from .models import Book
 from .forms import NewBookForm
 
+
 class IndexView(generic.ListView):
     template_name = 'book/index.html'
     context_object_name = 'book_list'
@@ -14,9 +15,11 @@ class IndexView(generic.ListView):
         """Return all books."""
         return Book.objects.order_by('start')
 
+
 class DetailView(generic.DetailView):
     model = Book
     template_name = 'book/edit.html'
+
 
 def new(request):
     if request.method == 'POST':
