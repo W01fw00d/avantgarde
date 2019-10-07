@@ -153,11 +153,16 @@ class NewBookForm(ModelForm):
         # Hardcoded to 1 week, should be on Book model as chapter_time
         one_week_on_days = 7
         one_week = datetime.timedelta(days=one_week_on_days)
+
+        if not start_date:
+            now = datetime.datetime.now()
+            start_date = datetime.date(now.year, now.month, now.day)
+
         end = start_date + one_week
 
         return {
             'number': number,
             'writter': writer['participant'],
-            'start': self.cleaned_data['start'],
+            'start': start_date,
             'end': end,
         }

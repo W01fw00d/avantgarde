@@ -6,6 +6,7 @@ from django.views import generic
 from .models import Book
 from .forms import NewBookForm
 
+import json
 
 class IndexView(generic.ListView):
     template_name = 'book/index.html'
@@ -47,6 +48,26 @@ def new(request):
             form.fields['rounds'].required = True
             form.fields['start'].required = True
             form.fields['end'].required = True
+
+            # ## Debug mock
+            def mock_form_data(request, form):
+                def is_valid_mocked():
+                    return True
+
+                form.is_valid = is_valid_mocked
+
+                form.cleaned_data = json.loads(
+                    '{"number": 1,"title": "Fake Book", "rounds": 1, "start": "", "end": "", "rules": [], "participant": "", "jobs": []}'
+                )
+                form.cleaned_data['rules'] = json.loads(
+                    '[{"id": 0, "name": "Character"}, {"id": 1, "name": "Theme"}, {"id": 2, "name": "Restriction"}]'
+                )
+                request.session['participants'] = json.loads(
+                    '[{"participant": {"id": 1, "name": "Gabo"}, "jobs": ["WRITER", "DIRECTOR"]}, {"participant": {"id": 2, "name": "JPM"}, "jobs": ["WRITER", "ILLUSTRATOR"]}, {"participant": {"id": 3, "name": "JJ"}, "jobs": ["WRITER", "ILLUSTRATOR"]}, {"participant": {"id": 4, "name": "Navi"}, "jobs": ["WRITER"]}, {"participant": {"id": 5, "name": "LuisB"}, "jobs": ["WRITER"]}, {"participant": {"id": 6, "name": "LluisG"}, "jobs": ["WRITER"]}, {"participant": {"id": 7, "name": "Ángela"}, "jobs": ["ILLUSTRATOR"]}, {"participant": {"id": 8, "name": "Sara"}, "jobs": ["ILLUSTRATOR"]}, {"participant": {"id": 9, "name": "Aina"}, "jobs": ["ILLUSTRATOR"]}, {"participant": {"id": 10, "name": "Marta"}, "jobs": ["WRITER"]}, {"participant": {"id": 11, "name": "Albert"}, "jobs": ["WRITER"]}, {"participant": {"id": 12, "name": "Isis"}, "jobs": ["WRITER", "ILLUSTRATOR"]}, {"participant": {"id": 13, "name": "Xisca"}, "jobs": ["WRITER"]}]'
+                )
+
+            mock_form_data(request, form)
+            # ## Debug mock
 
             # All fields are valids and there're chosen participants
             if form.is_valid() and request.session['participants']:
